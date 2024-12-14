@@ -1,0 +1,115 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Homepage
+{% endblock %}
+
+{% block main %}
+<!-- Navigation Bar -->
+<nav class="navbar navbar-expand-md navbar-light bg-light shadow-sm">
+    <div class="container-fluid">
+        <a>🌐</a>
+        <a class="navbar-brand" href="/"><span class="text-primary">Nexus</span><span class="text-warning">Social</span></a>
+        <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar">
+            {% if session["user_id"] %}
+                <ul class="navbar-nav me-auto mt-2">
+                    <li class="nav-item"><a class="nav-link" href="/interests">Edit Interests</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/profile">Connections</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/sell">Friends</a></li>
+                </ul>
+                <ul class="navbar-nav ms-auto mt-2">
+                    <li class="nav-item"><a class="nav-link" href="/logout">Log Out</a></li>
+                </ul>
+            {% else %}
+                <ul class="navbar-nav ms-auto mt-2">
+                    <li class="nav-item"><a class="nav-link" href="/register">Register</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/login">Log In</a></li>
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<header class="hero-section bg-primary text-white text-center py-5">
+    <div class="container">
+        <h1 class="display-4">Welcome to Nexus Social</h1>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container mt-5">
+    <div class="row">
+        <!-- Left Sidebar -->
+        <div class="col-md-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light text-center">
+                    <!-- Displaying the current logged-in user -->
+                    {% if session["user_id"] %}
+                        <img src="{{ session['user_profile_picture'] }}" alt="User Profile Picture" class="rounded-circle mb-3" style="width: 80px; height: 80px;">
+                        <h5>{{ session['user_name'] }}</h5>
+                    {% else %}
+                        <h5>Guest</h5>
+                    {% endif %}
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li><a href="/home" class="text-decoration-none text-dark">Home</a></li>
+                        <li><a href="/explore" class="text-decoration-none text-dark">Explore</a></li>
+                        <li><a href="/settings" class="text-decoration-none text-dark">Settings</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Middle Content: User Cards -->
+        <div class="col-md-6">
+                {% for listing in listings %}
+                <div class="listing-card">
+                    <img src="{{ url_for('static', filename='images/' ~ listing.image_path) }}" alt="{{ listing.title }}" class="listing-image">
+                    <div class="listing-details">
+                        <h3>{{ listing.title }}</h3>
+                        <p>{{ listing.description }}</p>
+                        <p>Price: {{ listing.price | usd}}</p>
+                        <p>Distance: {{ listing.distance | round(2) }} km</p>
+                        <p>Seller Name: {{ listing.seller_username }}</p>
+                        <a href="/transactions?listing_id={{ listing.listing_id }}" class="btn btn-primary">View More</a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Right Sidebar: Friend Requests -->
+        <div class="col-md-3">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-light">
+                    <h4 class="mb-0">Friend Requests</h4>
+                </div>
+                <div class="card-body">
+                    <ul class="list-unstyled">
+                        <li class="d-flex justify-content-between align-items-center mb-3">
+                            <span>John Doe</span>
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center mb-3">
+                            <span>Jane Smith</span>
+                            <span class="badge bg-success">Accepted</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer bg-light py-4">
+    <div class="container text-center">
+        <p class="mb-0">&copy; 2024 Nexus Social Network. All Rights Reserved.</p>
+    </div>
+</footer>
+{% endblock %}

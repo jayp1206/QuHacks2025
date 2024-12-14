@@ -1,0 +1,28 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Friends
+{% endblock %}
+
+{% block main %}
+<div class="container bg-light">
+    <fieldset>
+        <h1>Friends</h1>
+    </fieldset>
+
+    <div class="row">
+        {% for friend in friends %}
+        <div class="col-md-4 mb-4">
+            <div class="card">
+                <img src="{{ friend.profile_picture }}" class="card-img-top" alt="Profile Picture">
+                <div class="card-body">
+                    <h5 class="card-title">{{ friend.name }}</h5>
+                    <p class="card-text">{{ friend.bio }}</p>
+                    <a href="{{ friend.profile_link }}" class="btn btn-primary">View Profile</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
