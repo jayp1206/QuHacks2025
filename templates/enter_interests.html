@@ -9,22 +9,19 @@
 </head>
 <div class="container bg-success">
     <fieldset>
-        <h1>Change Intrests</h1>
+        <h1>Change Interests</h1>
     </fieldset>
-    <form action="/add_interests" method="post"></form>
-        <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Change Intrests
-            </button>
-            <small id="emailHelp" class="form-text text-muted">This will help us determine your friends.</small>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                {% for option in options %}
-                    <a class="dropdown-item" value="{{ option }}">{{ option }}</a>
-                {% endfor %}
-                
-            </div>
-            <button type="submit" class="btn btn-primary">Add intrest</button>
-            <button type="submit" class="btn btn-success">Save</button>
-        </div>
-    </form>
+    <label for="interest">Choose a intrest:</label>
+
+<form action="/add_interest" method="post">
+    <select name="interest" id="interest">
+    {% for interest in interests %}
+        <option class="dropdown-item" value="{{ interest }}">{{ interest }}</option>
+    {% endfor %}
+    </select>
+    <br>
+    <button type="submit" class="btn btn-primary">Add</button>
+    <a class="btn btn-warning" href="/">Go Back</a>
+</form>    
 </div>
+{% endblock %}

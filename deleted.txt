@@ -1,0 +1,6 @@
+
+"""
+    cur.execute('''SELECT user_id FROM interests 
+                WHERE interest IN (SELECT interest FROM interests WHERE user_id = ?)''', str(session["user_id"]))
+    rows = cur.fetchall()
+"""
